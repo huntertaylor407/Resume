@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hunter Taylor — IT Professional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #1f2530;
+    --accent: #00e5ff;
+    --accent2: #7b61ff;
+    --accent3: #39ff6e;
+    --text: #e8eaf0;
+    --text-muted: #6b7585;
+    --text-dim: #9aa3b2;
+    --glow: rgba(0, 229, 255, 0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 6vw;
+    background: rgba(10,12,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 6vw 80px;
+    overflow: hidden;
+  }
+
+  .hero-blur {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .hero-blur2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,97,255,0.10) 0%, transparent 70%);
+    bottom: 50px; left: 10%;
+    pointer-events: none;
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1) translateY(0); opacity: 1; }
+    50% { transform: scale(1.1) translateY(-20px); opacity: 0.7; }
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(57, 255, 110, 0.08);
+    border: 1px solid rgba(57, 255, 110, 0.3);
+    color: var(--accent3);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent3);
+    box-shadow: 0 0 8px var(--accent3);
+    animation: blink 1.8s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(52px, 9vw, 110px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  h1 .line1 { display: block; color: var(--text); }
+  h1 .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    max-width: 580px;
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 48px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--accent); color: #000; border: none; }
+  .btn-primary:hover { background: #33ecff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,255,0.3); }
+  .btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .contact-line {
+    position: absolute;
+    bottom: 40px; right: 6vw;
+    display: flex;
+    gap: 24px;
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+  .contact-line a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .contact-line a:hover { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 10;
+    padding: 100px 6vw;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 56px;
+    color: var(--text);
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
+    padding: 24px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 4px; }
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ── EXPERIENCE ── */
+  .exp-grid { display: flex; flex-direction: column; gap: 2px; }
+
+  .exp-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px 32px;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .exp-item:hover { border-color: rgba(0,229,255,0.3); transform: translateX(4px); }
+
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .exp-company { color: var(--accent); font-size: 12px; letter-spacing: 0.06em; margin-bottom: 16px; }
+  .exp-date { font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; text-align: right; white-space: nowrap; padding-top: 4px; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .exp-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+
+  .tag {
+    display: inline-block;
+    background: rgba(0,229,255,0.07);
+    border: 1px solid rgba(0,229,255,0.2);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    margin-right: 6px;
+  }
+  .tag.purple { background: rgba(123,97,255,0.07); border-color: rgba(123,97,255,0.2); color: var(--accent2); }
+  .tag.green { background: rgba(57,255,110,0.07); border-color: rgba(57,255,110,0.2); color: var(--accent3); }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent3), var(--accent));
+  }
+  .project-card:hover { border-color: rgba(57,255,110,0.3); transform: translateY(-3px); }
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .project-desc { color: var(--text-dim); font-size: 12px; line-height: 1.7; }
+  .project-outcome {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(57,255,110,0.07);
+    border: 1px solid rgba(57,255,110,0.2);
+    color: var(--accent3);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── SKILLS ── */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .skill-card:hover::after { opacity: 1; }
+  .skill-card:hover { border-color: rgba(0,229,255,0.2); transform: translateY(-3px); }
+  .skill-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: rgba(0,229,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: 18px;
+  }
+  .skill-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .skill-desc { color: var(--text-muted); font-size: 12px; line-height: 1.6; }
+
+  /* ── CERTIFICATIONS ── */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .cert-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    transition: all 0.2s;
+  }
+  .cert-card:hover { border-color: rgba(123,97,255,0.3); transform: translateX(4px); }
+  .cert-icon {
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    background: rgba(123,97,255,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .cert-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .cert-issuer { font-size: 11px; color: var(--text-muted); }
+  .cert-date { font-size: 10px; color: var(--accent2); margin-top: 4px; letter-spacing: 0.06em; }
+
+  /* ── TOOLS ── */
+  .tools-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: -16px;
+  }
+  .tool-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+  .tool-pill:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* ── EDUCATION ── */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px 28px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .edu-card:hover { border-color: rgba(123,97,255,0.3); transform: translateY(-3px); }
+  .edu-degree { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .edu-school { color: var(--accent2); font-size: 12px; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .edu-year { color: var(--text-muted); font-size: 11px; }
+
+  /* ── TARGET ROLES ── */
+  .target-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .target-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+  }
+  .target-card:hover { border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.04); transform: translateX(4px); }
+  .target-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: rgba(0,229,255,0.2); min-width: 40px; }
+  .target-title { font-size: 13px; color: var(--text-dim); line-height: 1.4; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--surface); text-align: center; }
+  .contact-box { max-width: 500px; margin: 0 auto; }
+  .contact-box p { color: var(--text-dim); margin-bottom: 40px; font-size: 14px; line-height: 1.8; }
+  .contact-row { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+  .contact-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .contact-item .label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .contact-item a { color: var(--accent); text-decoration: none; font-size: 13px; }
+  .contact-item a:hover { text-decoration: underline; }
+
+  footer {
+    position: relative; z-index: 10;
+    padding: 24px 6vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer p { color: var(--text-muted); font-size: 11px; }
+
+  .terminal-divider {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .terminal-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  @media (max-width: 640px) {
+    .exp-item { grid-template-columns: 1fr; }
+    .exp-date { text-align: left; }
+    .nav-links { display: none; }
+    .stats-bar { gap: 20px; padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="#" class="nav-logo">Hunter<span>.</span>Taylor</a>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#certifications">Certs</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header>
+  <div class="hero-blur"></div>
+  <div class="hero-blur2"></div>
+
+  <div class="status-badge">
+    <div class="status-dot"></div>
+    Open to new opportunities
+  </div>
+
+  <h1>
+    <span class="line1">Hunter</span>
+    <span class="line2">Taylor</span>
+  </h1>
+
+  <p class="hero-desc">
+    IT Technician & Cybersecurity Associate with 1+ year of hands-on experience in networks, security audits, and HIPAA-compliant IT support. Skilled in Wireshark, PowerShell, Microsoft Intune, and Entra — actively pursuing roles in systems administration, infrastructure, and cybersecurity.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#experience" class="btn btn-primary">View Experience</a>
+    <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+  </div>
+
+  <div class="contact-line">
+    <a href="tel:4076708368">407-670-8368</a>
+    <a href="mailto:huntertaylor670@gmail.com">huntertaylor670@gmail.com</a>
+  </div>
+</header>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="section-label">Work History</div>
+  <h2>Experience</h2>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-value">87%</div>
+      <div class="stat-label">First-Contact Resolution</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">~25</div>
+      <div class="stat-label">Monthly Tickets</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">~500</div>
+      <div class="stat-label">User Environment</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">98%</div>
+      <div class="stat-label">WLAN Uptime (Project)</div>
+    </div>
+  </div>
+
+  <div class="terminal-divider">// 3 roles · spanning 2018–present</div>
+
+  <div class="exp-grid">
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-role">IT Technician</div>
+        <div class="exp-company">The Mayflower Retirement Community — Winter Park, FL</div>
+        <ul class="exp-bullets">
+          <li>Increased first-contact resolution rate to 87% by delivering efficient technical support, resolving ~25 monthly tickets within 30–60 minutes in a ~500-user, HIPAA-compliant environment.</li>
+          <li>Supported residents and employees using remote desktop tools, network monitoring, and a FIFO ticketing system across WAN, WLAN, and LAN while enforcing HIPAA policies and procedures.</li>
+          <li>Reduced repeat issues and improved incident response by educating users, training staff on IT policies, and prioritizing high-risk tickets such as malware outside standard workflows.</li>
+          <li>Conducted security login audits and IP/action reviews in critical operational areas, enabling seamless yearly compliance audits.</li>
+        </ul>
+        <div>
+          <span class="tag">HIPAA Compliance</span>
+          <span class="tag">Networking</span>
+          <span class="tag green">Security Audits</span>
+          <span class="tag purple">Remote Support</span>
+          <span class="tag">Wireshark</span>
+          <span class="tag purple">Intune / Entra</span>
+        </div>
+      </div>
+      <div class="exp-date">Jan 2025 — Present</div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-role">Bartender / Server</div>
+        <div class="exp-company">The Mayflower Retirement Community — Winter Park, FL</div>
+        <ul class="exp-bullets">
+          <li>Delivered customer-focused service in a high-volume environment, strengthening communication, prioritization, and problem-solving skills directly applicable to IT support roles.</li>
+          <li>Built familiarity with the facility environment and resident needs — a foundation for transitioning into the in-house IT Technician role.</li>
+        </ul>
+        <div>
+          <span class="tag purple">Communication</span>
+          <span class="tag">Customer Service</span>
+        </div>
+      </div>
+      <div class="exp-date">Dec 2023 — Feb 2025</div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-role">Sales Representative</div>
+        <div class="exp-company">Sunbright Solar</div>
+        <ul class="exp-bullets">
+          <li>Conducted door-to-door sales of solar panel systems, presenting technical and financial benefits to homeowners.</li>
+          <li>Developed persuasive communication and resilience while consistently meeting daily sales targets.</li>
+          <li>Strengthened ability to explain complex technical concepts in a clear, customer-friendly manner.</li>
+        </ul>
+        <div>
+          <span class="tag">Technical Communication</span>
+          <span class="tag purple">Client Relations</span>
+        </div>
+      </div>
+      <div class="exp-date">Jun 2023 — Sep 2023</div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-role">Service & Hospitality Professional</div>
+        <div class="exp-company">Rock and Brews · Café Boutique Piano · Cru Quarters</div>
+        <ul class="exp-bullets">
+          <li>Delivered exceptional customer service in fast-paced, high-volume environments across multiple venues.</li>
+          <li>Built strong interpersonal and persuasion skills over 6+ years of customer-facing work.</li>
+          <li>Recognized for driving revenue growth through effective upselling strategies.</li>
+        </ul>
+        <div>
+          <span class="tag">Customer Service</span>
+          <span class="tag purple">Communication</span>
+        </div>
+      </div>
+      <div class="exp-date">2018 — Dec 2023</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="section-label">Technical Work</div>
+  <h2>Projects</h2>
+
+  <div class="terminal-divider">// real-world infrastructure & security work</div>
+
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-name">New WLAN Infrastructure Upgrade</div>
+      <div class="project-desc">
+        Led a 3-person team to upgrade an entire facility from outdated legacy network equipment to modern wireless infrastructure. Used Ethernet crimpers and cable testers to fix and configure jacks throughout the building. Coordinated installation and validation across all access points to ensure full coverage and fiber-speed performance.
+      </div>
+      <div class="project-outcome">✦ 98% network availability · fiber speeds achieved</div>
+      <div>
+        <span class="tag green">LAN/WLAN</span>
+        <span class="tag">Ethernet / Cabling</span>
+        <span class="tag purple">Team Lead</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-name">IP & Action Audit Program</div>
+      <div class="project-desc">
+        Tasked with ongoing IP address and user-action reviews across critical operational areas. Built and maintained audit logs to track suspicious activity, enforce compliance, and give the annual audit team seamless access to organized, verified records. Used PowerShell scripts, Wireshark, Excel formulas, and audit report logs to surface issues and document findings.
+      </div>
+      <div class="project-outcome">✦ Streamlined annual compliance audits</div>
+      <div>
+        <span class="tag green">Security Auditing</span>
+        <span class="tag">PowerShell</span>
+        <span class="tag">Wireshark</span>
+        <span class="tag purple">HIPAA</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2>Skills & Expertise</h2>
+
+  <div class="skills-layout" style="margin-bottom: 56px;">
+
+    <div class="skill-card">
+      <div class="skill-icon">🔐</div>
+      <div class="skill-name">Cybersecurity</div>
+      <div class="skill-desc">Security monitoring, account audits, HIPAA compliance, and threat mitigation. Formal coursework and hands-on lab experience through Seminole State.</div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">Networking</div>
+      <div class="skill-desc">TCP/IP, LAN/WAN/WLAN, DHCP, DNS, VLANs. Practical experience configuring and troubleshooting enterprise network environments.</div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🖥️</div>
+      <div class="skill-name">IT Support & Help Desk</div>
+      <div class="skill-desc">Ticketing systems, remote support, hardware repair/upgrades, and Windows administration. 87% first-contact resolution rate in a 500-user environment.</div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">💻</div>
+      <div class="skill-name">Systems & Tools</div>
+      <div class="skill-desc">Microsoft Intune, Microsoft Entra, PowerShell scripting, Wireshark packet analysis, and Windows client management.</div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🔍</div>
+      <div class="skill-name">Investigative Research</div>
+      <div class="skill-desc">IP address lookups, audit log analysis, incident review, and documenting findings to support compliance and security teams.</div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🗣️</div>
+      <div class="skill-name">Technical Communication</div>
+      <div class="skill-desc">Proven ability to translate complex IT concepts into clear, user-friendly guidance across residents, staff, and management.</div>
+    </div>
+
+  </div>
+
+  <div class="section-label" style="margin-bottom: 24px;">Tools & Platforms</div>
+  <div class="tools-wrap">
+    <div class="tool-pill">🦈 Wireshark</div>
+    <div class="tool-pill">⚡ PowerShell</div>
+    <div class="tool-pill">📊 Excel</div>
+    <div class="tool-pill">☁️ Microsoft Intune</div>
+    <div class="tool-pill">🔑 Microsoft Entra</div>
+    <div class="tool-pill">🖥️ Remote Desktop</div>
+    <div class="tool-pill">🎫 FIFO Ticketing Systems</div>
+    <div class="tool-pill">🌐 TCP/IP · DHCP · DNS</div>
+    <div class="tool-pill">📡 LAN / WAN / WLAN</div>
+    <div class="tool-pill">🔒 HIPAA Compliance</div>
+    <div class="tool-pill">🔧 Ethernet Crimping</div>
+    <div class="tool-pill">☁️ AWS Fundamentals</div>
+    <div class="tool-pill">🌐 Cisco Networking</div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ── -->
+<section id="certifications">
+  <div class="section-label">Credentials</div>
+  <h2>Certifications</h2>
+
+  <div class="terminal-divider">// industry & academic certifications</div>
+
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-icon">🏆</div>
+      <div>
+        <div class="cert-name">CompTIA Network+</div>
+        <div class="cert-issuer">CompTIA</div>
+        <div class="cert-date">April 2026</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🎓</div>
+      <div>
+        <div class="cert-name">I.T. Client Specialist</div>
+        <div class="cert-issuer">Seminole State College</div>
+        <div class="cert-date">Dec 2025</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🛡️</div>
+      <div>
+        <div class="cert-name">Security+ · A++</div>
+        <div class="cert-issuer">Coursework — Seminole State</div>
+        <div class="cert-date">In Progress</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">Advanced Security & Ethical Hacking</div>
+        <div class="cert-issuer">Seminole State College</div>
+        <div class="cert-date">In Progress</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">☁️</div>
+      <div>
+        <div class="cert-name">AWS Fundamentals</div>
+        <div class="cert-issuer">Seminole State College</div>
+        <div class="cert-date">In Progress</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🌐</div>
+      <div>
+        <div class="cert-name">Cisco Intro to Networking</div>
+        <div class="cert-issuer">Seminole State College</div>
+        <div class="cert-date">In Progress</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🖥️</div>
+      <div>
+        <div class="cert-name">Managing a Windows Client</div>
+        <div class="cert-issuer">Seminole State College</div>
+        <div class="cert-date">In Progress</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TARGET ROLES ── -->
+<section id="target">
+  <div class="section-label">Career Direction</div>
+  <h2>Target Roles</h2>
+  <p style="color:var(--text-dim); max-width:560px; margin-bottom: 40px; font-size:13px; line-height:1.8;">
+    Actively seeking opportunities that leverage my growing IT foundation and real-world technical experience to move into higher-impact roles.
+  </p>
+
+  <div class="target-grid">
+    <div class="target-card"><div class="target-num">01</div><div class="target-title">Systems Administrator</div></div>
+    <div class="target-card"><div class="target-num">02</div><div class="target-title">IT Infrastructure Specialist</div></div>
+    <div class="target-card"><div class="target-num">03</div><div class="target-title">Cybersecurity Analyst</div></div>
+    <div class="target-card"><div class="target-num">04</div><div class="target-title">Help Desk / IT Support L2–L3</div></div>
+    <div class="target-card"><div class="target-num">05</div><div class="target-title">Network Technician</div></div>
+    <div class="target-card"><div class="target-num">06</div><div class="target-title">Junior DevOps / Cloud Role</div></div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section id="education">
+  <div class="section-label">Academic Background</div>
+  <h2>Education</h2>
+
+  <div class="edu-grid">
+
+    <div class="edu-card">
+      <div class="edu-degree">A.S. Information Technology — Cyber Security</div>
+      <div class="edu-school">Seminole State College — Sanford, FL</div>
+      <div class="edu-year">Expected 2025</div>
+      <div style="margin-top:16px;">
+        <span class="tag">Cybersecurity</span>
+        <span class="tag purple">IT Infrastructure</span>
+        <span class="tag green">Networking</span>
+        <span class="tag">Ethical Hacking</span>
+        <span class="tag purple">AWS</span>
+        <span class="tag">Cisco</span>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-degree">High School Diploma</div>
+      <div class="edu-school">Winter Springs High School</div>
+      <div class="edu-year">2016 — 2020</div>
+      <div style="margin-top:16px;">
+        <span class="tag">Information Technology</span>
+        <span class="tag purple">Computer Science Track</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-box">
+    <div class="section-label" style="justify-content:center;">Let's Connect</div>
+    <h2 style="text-align:center; margin-bottom:20px;">Get in Touch</h2>
+    <p>
+      I'm actively looking for IT and cybersecurity roles where I can bring real technical value. Whether you have a full-time opportunity, a project, or just want to chat — reach out.
+    </p>
+    <div class="contact-row">
+      <div class="contact-item">
+        <span class="label">Phone</span>
+        <a href="tel:4076708368">407-670-8368</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Email</span>
+        <a href="mailto:huntertaylor670@gmail.com">huntertaylor670@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">LinkedIn</span>
+        <a href="https://linkedin.com/in/hunter-taylor407" target="_blank">hunter-taylor407</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Website</span>
+        <a href="https://huntertaylor407.github.io/Resume/" target="_blank">huntertaylor407.github.io</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Location</span>
+        <span style="color:var(--text-dim); font-size:13px;">Winter Springs, FL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Hunter Taylor — IT Professional</p>
+  <p style="color:var(--text-muted);">CompTIA Network+ · HIPAA · Wireshark · Intune</p>
+</footer>
+
+</body>
+</html>
